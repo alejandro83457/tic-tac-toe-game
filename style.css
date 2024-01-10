@@ -19,13 +19,14 @@ main {
   background-color: black;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  width: 450px;
+  /* width: 450px; */
+  width: min(75vw, 450px);
   gap: 3px;
 }
 
 .cell {
   background-color: white;
-  height: 150px;
+  height: min(25vw, 150px);
   display: flex;
   justify-content: center;
   align-items: center;
