@@ -9,11 +9,15 @@ function Gameboard() {
     return board;
   }
 
-  function setPiece(piece, coord) {
+  function addPiece(piece, coord) {
     [row, col] = coord;
-    if (board[row][col] != null) return 0;
+    if (isNaN(row)) return false;
+    if (isNaN(col)) return false;
+    if (row > 2 || row < 0) return false;
+    if (col > 2 || col < 0) return false;
+    if (board[row][col] != null) return false;
     board[row][col] = piece;
-    return 1;
+    return true;
   }
 
   function printBoard() {
@@ -49,7 +53,7 @@ function Gameboard() {
 
   // Note how I'm not returning board array.
   // It's a private variable. (Closure)
-  return { getBoard, setPiece, printBoard, checkWin, checkBoardFull };
+  return { getBoard, addPiece, printBoard, checkWin, checkBoardFull };
 }
 
 function Player(name, token) {
@@ -64,13 +68,52 @@ function Player(name, token) {
     return playerToken;
   }
 
-  return { getPlayer, getToken };
+  function getMove() {
+    let input = prompt("Enter coords with space between:");
+    return input.split(" ");
+  }
+
+  return { getPlayer, getToken, getMove };
 }
 
 function Game() {
+  // Set new objects.
   let board = new Gameboard();
   let player1 = new Player("player1", "X");
   let player2 = new Player("player2", "O");
+
+  // Keep track of turn.
+  let turn = player1;
+
+  // Loop will end only if there is a tie or someone wins
+  while (true) {
+    console.log(`${turn.getPlayer()}'s turn!`);
+    board.printBoard();
+
+    // Will loop until correct cell has been chosen
+    while (true) {
+      if (board.addPiece(turn.getToken(), turn.getMove())) break;
+      console.log("Incorrect move!");
+    }
+
+    // Check for win
+    if (board.checkWin(turn.getToken())) {
+      console.log(`${turn.getPlayer()} won!!`);
+      board.printBoard();
+      break;
+    }
+
+    // Check for tie
+    if (board.checkBoardFull()) {
+      console.log("Tie!");
+      board.printBoard();
+      break;
+    }
+
+    // Switch turn
+    if (turn == player1) turn = player2;
+    else turn = player1;
+  }
 }
 
 const game = new Game();
