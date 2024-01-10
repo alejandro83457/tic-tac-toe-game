@@ -1,11 +1,12 @@
 body {
   margin: 0;
+  font-family: Roboto, sans-serif;
 }
 
 header {
   text-align: center;
   font-size: 60px;
-  padding-bottom: 5rem;
+  padding-bottom: 3rem;
 }
 
 main {
@@ -18,18 +19,18 @@ main {
   background-color: black;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  width: 300px;
-  gap: 2px;
+  width: 450px;
+  gap: 3px;
 }
 
 .cell {
   background-color: white;
-  height: 100px;
+  height: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  font-size: 50px;
+  font-size: 70px;
 }
 
 .cell:hover {
@@ -57,10 +58,6 @@ button {
 input {
   background-color: lightgray;
   outline: none;
-}
-
-input:focus {
-  background-color: white;
 }
 
 button:hover {
