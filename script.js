@@ -119,7 +119,7 @@ function Game(player1Name, player2Name) {
 }
 
 function ScreenController() {
-  let game = new Game("test1", "test2");
+  let game;
 
   const cells = document.querySelectorAll(".cell");
   const turn = document.querySelector(".turn");
@@ -127,24 +127,27 @@ function ScreenController() {
   const submit = document.querySelector("dialog button");
   const player1 = document.querySelector("#player1");
   const player2 = document.querySelector("#player2");
+  const playButton = document.querySelector(".play");
 
-  cells.forEach((cell) => {
-    cell.addEventListener("click", (e) => {
-      if (cell.textContent == "") cellAction(e);
+  // event listener
+  function cellEventListener(e) {
+    if (e.target.textContent == "") cellAction(e);
+  }
+
+  playButton.addEventListener("click", (e) => {
+    cells.forEach((cell) => {
+      cell.addEventListener("click", cellEventListener);
     });
-  });
 
-  submit.addEventListener("click", (e) => {
-    e.preventDefault(); // BRUH MOMENT
-    game = new Game(player1.value, player2.value);
-    turn.textContent = game.getTurn().getPlayer();
-    turn.style.backgroundColor = "white";
-    dialog.close();
-    cells.forEach((cell) => (cell.textContent = ""));
-  });
+    submit.addEventListener("click", (e) => {
+      e.preventDefault(); // BRUH MOMENT
+      game = new Game(player1.value, player2.value);
+      turn.textContent = game.getTurn().getPlayer();
+      turn.style.backgroundColor = "white";
+      dialog.close();
+      cells.forEach((cell) => (cell.textContent = ""));
+    });
 
-  // LOADS DIALOG ON LOAD
-  window.addEventListener("load", () => {
     dialog.showModal();
   });
 
@@ -159,20 +162,20 @@ function ScreenController() {
     if (game.checkWin()) {
       turn.textContent = `${game.getTurn().getPlayer()} won`;
       turn.style.backgroundColor = "#90ee90";
-      resetGame();
+
+      // Remove cell event listener
+      // Disallows user from adding more input after game ends.
+      cells.forEach((cell) => {
+        cell.removeEventListener("click", cellEventListener);
+      });
       return;
     } else if (game.checkTie()) {
       turn.textContent = "tie";
       turn.style.backgroundColor = "#ffa07a";
-      resetGame();
       return;
     }
     game.changeTurn();
     turn.textContent = game.getTurn().getPlayer();
-  }
-
-  function resetGame() {
-    dialog.showModal();
   }
 }
 

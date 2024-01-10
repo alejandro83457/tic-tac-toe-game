@@ -83,6 +83,13 @@ form {
   font-size: 40px;
 }
 
+.play {
+  margin-top: 1rem;
+  font-size: 45px;
+  width: fit-content;
+  padding: 7px 20px;
+}
+
 footer {
   position: absolute;
   bottom: 0;
@@ -93,7 +100,7 @@ footer {
   font-size: 20px;
   padding: 10px 0;
 }
+
 footer a {
-  /* text-decoration: none; */
   color: inherit;
 }
