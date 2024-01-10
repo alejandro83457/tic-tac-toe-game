@@ -82,3 +82,18 @@ form {
   text-align: center;
   font-size: 40px;
 }
+
+footer {
+  position: absolute;
+  bottom: 0;
+  background-color: lightgray;
+  text-align: center;
+  color: gray;
+  width: 100vw;
+  font-size: 20px;
+  padding: 10px 0;
+}
+footer a {
+  /* text-decoration: none; */
+  color: inherit;
+}
