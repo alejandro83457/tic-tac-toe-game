@@ -60,8 +60,13 @@ button {
 }
 
 input {
-  background-color: lightgray;
+  background-color: #e7e5e4;
   outline: none;
+}
+
+button {
+  background-color: #e7e5e4;
+  color: black;
 }
 
 button:hover {
@@ -93,7 +98,7 @@ form {
 footer {
   position: absolute;
   bottom: 0;
-  background-color: lightgray;
+  background-color: #e7e5e4;
   text-align: center;
   color: gray;
   width: 100vw;
