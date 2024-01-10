@@ -8,6 +8,40 @@
     <title>Document</title>
   </head>
   <body>
-    test
+    <dialog>
+      <form>
+        <div class="dialog-heading">player names</div>
+        <input
+          type="text"
+          name="player1"
+          id="player1"
+          placeholder="Player 1"
+          required
+        />
+        <input
+          type="text"
+          name="player2"
+          id="player2"
+          placeholder="Player 2"
+          required
+        />
+        <button type="submit">play</button>
+      </form>
+    </dialog>
+    <header>tic tac toe</header>
+    <main>
+      <div class="turn"></div>
+      <div class="board">
+        <div class="cell" data-value="0 0"></div>
+        <div class="cell" data-value="0 1"></div>
+        <div class="cell" data-value="0 2"></div>
+        <div class="cell" data-value="1 0"></div>
+        <div class="cell" data-value="1 1"></div>
+        <div class="cell" data-value="1 2"></div>
+        <div class="cell" data-value="2 0"></div>
+        <div class="cell" data-value="2 1"></div>
+        <div class="cell" data-value="2 2"></div>
+      </div>
+    </main>
   </body>
 </html>

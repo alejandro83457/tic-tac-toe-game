@@ -1,3 +1,5 @@
+"use strict";
+
 function Gameboard() {
   const board = [
     [null, null, null],
@@ -9,21 +11,15 @@ function Gameboard() {
     return board;
   }
 
+  // Checks if coords are valid.
   function addPiece(piece, coord) {
-    [row, col] = coord;
-    if (isNaN(row)) return false;
-    if (isNaN(col)) return false;
-    if (row > 2 || row < 0) return false;
-    if (col > 2 || col < 0) return false;
-    if (board[row][col] != null) return false;
+    let [row, col] = coord;
     board[row][col] = piece;
-    return true;
   }
 
+  // Debugging. Prints to console.
   function printBoard() {
-    for (let row of board) {
-      console.log(row);
-    }
+    for (let row of board) console.log(row);
     console.log("-");
   }
 
@@ -57,63 +53,124 @@ function Gameboard() {
 }
 
 function Player(name, token) {
-  let playernName = name;
+  let playerName = name;
   let playerToken = token;
 
   function getPlayer() {
-    return playernName;
+    return playerName;
   }
 
   function getToken() {
     return playerToken;
   }
 
-  function getMove() {
-    let input = prompt("Enter coords with space between:");
-    return input.split(" ");
-  }
-
-  return { getPlayer, getToken, getMove };
+  return { getPlayer, getToken };
 }
 
-function Game() {
+function Game(player1Name, player2Name) {
   // Set new objects.
   let board = new Gameboard();
-  let player1 = new Player("player1", "X");
-  let player2 = new Player("player2", "O");
+
+  let player1 = new Player(player1Name, "X");
+  let player2 = new Player(player2Name, "O");
 
   // Keep track of turn.
   let turn = player1;
 
-  // Loop will end only if there is a tie or someone wins
-  while (true) {
+  board.printBoard();
+
+  function playRound(move) {
     console.log(`${turn.getPlayer()}'s turn!`);
-    board.printBoard();
 
     // Will loop until correct cell has been chosen
-    while (true) {
-      if (board.addPiece(turn.getToken(), turn.getMove())) break;
-      console.log("Incorrect move!");
-    }
+    board.addPiece(turn.getToken(), move);
 
-    // Check for win
+    board.printBoard();
+  }
+
+  function checkWin() {
     if (board.checkWin(turn.getToken())) {
       console.log(`${turn.getPlayer()} won!!`);
-      board.printBoard();
-      break;
-    }
+      return true;
+    } else return false;
+  }
 
-    // Check for tie
+  function checkTie() {
     if (board.checkBoardFull()) {
       console.log("Tie!");
-      board.printBoard();
-      break;
-    }
+      return true;
+    } else return false;
+  }
 
-    // Switch turn
+  function getBoard() {
+    return board.getBoard();
+  }
+
+  function changeTurn() {
     if (turn == player1) turn = player2;
     else turn = player1;
   }
+
+  function getTurn() {
+    return turn;
+  }
+
+  return { playRound, getBoard, getTurn, checkWin, checkTie, changeTurn };
 }
 
-const game = new Game();
+function ScreenController() {
+  let game = new Game("test1", "test2");
+
+  const cells = document.querySelectorAll(".cell");
+  const turn = document.querySelector(".turn");
+  const dialog = document.querySelector("dialog");
+  const submit = document.querySelector("dialog button");
+  const player1 = document.querySelector("#player1");
+  const player2 = document.querySelector("#player2");
+
+  cells.forEach((cell) => {
+    cell.addEventListener("click", (e) => {
+      if (cell.textContent == "") cellAction(e);
+    });
+  });
+
+  submit.addEventListener("click", (e) => {
+    e.preventDefault(); // BRUH MOMENT
+    game = new Game(player1.value, player2.value);
+    turn.textContent = game.getTurn().getPlayer();
+    dialog.close();
+    cells.forEach((cell) => (cell.textContent = ""));
+  });
+
+  // LOADS DIALOG ON LOAD
+  window.addEventListener("load", () => {
+    dialog.showModal();
+  });
+
+  function cellAction(e) {
+    let move = e.target.getAttribute("data-value").split(" ");
+    game.playRound(move);
+    updateScreen(e);
+  }
+
+  function updateScreen(e) {
+    e.target.textContent = game.getTurn().getToken();
+    if (game.checkWin()) {
+      turn.textContent = `${game.getTurn().getPlayer()} WON`;
+      resetGame();
+      return;
+    } else if (game.checkTie()) {
+      turn.textContent = "TIE";
+      resetGame();
+      return;
+    }
+    game.changeTurn();
+    turn.textContent = game.getTurn().getPlayer();
+  }
+
+  function resetGame() {
+    dialog.showModal();
+  }
+}
+
+ScreenController();

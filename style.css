@@ -1,1 +1,83 @@
+body {
+  margin: 0;
+}
 
+header {
+  text-align: center;
+  font-size: 60px;
+  padding-bottom: 5rem;
+}
+
+main {
+  display: grid;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.board {
+  background-color: black;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 300px;
+  gap: 2px;
+}
+
+.cell {
+  background-color: white;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 50px;
+}
+
+.cell:hover {
+  background-color: rgb(243, 243, 243);
+}
+
+.turn {
+  text-align: center;
+  font-size: 40px;
+}
+
+dialog,
+input,
+button {
+  font-size: 25px;
+  border-radius: 5px;
+}
+
+input,
+button {
+  padding: 7px;
+  border: none;
+}
+
+input {
+  background-color: lightgray;
+  outline: none;
+}
+
+input:focus {
+  background-color: white;
+}
+
+button:hover {
+  background-color: lightgray;
+}
+
+dialog {
+  border: none;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dialog-heading {
+  text-align: center;
+  font-size: 40px;
+}
