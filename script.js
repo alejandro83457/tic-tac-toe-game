@@ -138,6 +138,7 @@ function ScreenController() {
     e.preventDefault(); // BRUH MOMENT
     game = new Game(player1.value, player2.value);
     turn.textContent = game.getTurn().getPlayer();
+    turn.style.backgroundColor = "white";
     dialog.close();
     cells.forEach((cell) => (cell.textContent = ""));
   });
@@ -156,11 +157,13 @@ function ScreenController() {
   function updateScreen(e) {
     e.target.textContent = game.getTurn().getToken();
     if (game.checkWin()) {
-      turn.textContent = `${game.getTurn().getPlayer()} WON`;
+      turn.textContent = `${game.getTurn().getPlayer()} won`;
+      turn.style.backgroundColor = "#90ee90";
       resetGame();
       return;
     } else if (game.checkTie()) {
-      turn.textContent = "TIE";
+      turn.textContent = "tie";
+      turn.style.backgroundColor = "#ffa07a";
       resetGame();
       return;
     }
