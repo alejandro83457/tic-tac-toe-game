@@ -119,8 +119,10 @@ function Game(player1Name, player2Name) {
 }
 
 function ScreenController() {
+  // Holds current game instance.
   let game;
 
+  // Elements
   const cells = document.querySelectorAll(".cell");
   const turn = document.querySelector(".turn");
   const dialog = document.querySelector("dialog");
@@ -129,16 +131,19 @@ function ScreenController() {
   const player2 = document.querySelector("#player2");
   const playButton = document.querySelector(".play");
 
-  // event listener
+  // Event listener so it can be removed
   function cellEventListener(e) {
     if (e.target.textContent == "") cellAction(e);
   }
 
+  // Button will add event listeners.
   playButton.addEventListener("click", (e) => {
+    // Add cell click function
     cells.forEach((cell) => {
       cell.addEventListener("click", cellEventListener);
     });
 
+    // Set up for a new game when submitting form
     submit.addEventListener("click", (e) => {
       e.preventDefault(); // BRUH MOMENT
       game = new Game(player1.value, player2.value);
@@ -148,15 +153,18 @@ function ScreenController() {
       cells.forEach((cell) => (cell.textContent = ""));
     });
 
+    // Show dialog box
     dialog.showModal();
   });
 
+  // Every time a cell is clicked, game is advanced
   function cellAction(e) {
     let move = e.target.getAttribute("data-value").split(" ");
     game.playRound(move);
     updateScreen(e);
   }
 
+  // Keeps track of visuals and checks if there's a win/tie
   function updateScreen(e) {
     e.target.textContent = game.getTurn().getToken();
     if (game.checkWin()) {
@@ -179,4 +187,5 @@ function ScreenController() {
   }
 }
 
+// Runs game
 ScreenController();
